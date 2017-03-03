@@ -27,4 +27,10 @@ data = {
 r = requests.post(RUN_URL, data=data)
 source.close()
 output = r.json()
-print output['run_status']['output']
+
+if (output['compile_status'] == "OK"):
+    print "Output:<br> "
+    print output['run_status']['output']
+else:
+    print "Error(s) detected:<br>"
+    print output['compile_status']
