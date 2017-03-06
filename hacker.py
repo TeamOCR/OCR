@@ -28,9 +28,22 @@ r = requests.post(RUN_URL, data=data)
 source.close()
 output = r.json()
 
+#print output
+
 if (output['compile_status'] == "OK"):
-    print "Output:<br> "
-    print output['run_status']['output']
-else:
-    print "Error(s) detected:<br>"
+    if ( output ['run_status']['status'] == "AC") :
+        print "Output:<br> "
+        print output['run_status']['output']
+    elif (output['run_status']['status']== "TLE"):
+        print "Error: Timed out <br>"
+        print "Hint: Check for infinite loops/recursion"
+    elif(output['run_status']['status']== "MLE"):
+        print "Error: Memory limit reached <br>"
+        print "Hint: Check for infinite loops/recursion"
+    else:
+        print "Unknown error"
+elif (output['compile_status'] != "OK") :
+    print "Compiler error detected:<br>"
     print output['compile_status']
+else:
+    print "Unknown error"
